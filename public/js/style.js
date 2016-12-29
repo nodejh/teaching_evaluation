@@ -22,7 +22,7 @@
       return alert('请输入密码');
     }
     // 获取需要评教的列表
-    var url = '/api/getEvaluationList';
+    var url = '/api/evaluationList';
     // var data = 'zjh='+number+'&mm='+password;
     var data = {
       number: number,
@@ -51,7 +51,7 @@
         // 进行评教
         var evaluationList = parsed.evaluationList;
         $message.innerHTML += '<div class="text-success">[成功] 共 ' + evaluationList.length + ' 名需要评估的老师 </div>';
-        var token = parsed.token;
+        var cookie = parsed.cookie;
         var list = evaluationList.filter(function(item) {
           if (item.isEvalute === '否') {
             return item;
@@ -93,7 +93,7 @@
               wjbm: item.wjbm,
               bpr: item.bpr,
               pgnr: item.pgnr,
-              token: token,
+              cookie: cookie,
               teacherName: item.teacherName,
               className: item.className,
               isEvalute: item.isEvalute,
@@ -187,7 +187,7 @@
    */
   function setBtnInit() {
     $btn.innerText = '评教';
-    $btn.setAttribute('disabled', false);
+    $btn.removeAttribute('disabled');
   }
 
 })();

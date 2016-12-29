@@ -1,9 +1,10 @@
+const log = require('./../helper/log');
 const loginZhjw = require('./../models/loginZhjw');
-const getTeacherList = require('./../models/getTeacherList');
+const getEvaluationList = require('./../models/getEvaluationList');
 
 
-const evaluationList = (req, res) => {
-  console.log('login...');
+const evaluationListController = (req, res) => {
+  log.info('获取需要评教的老师（助教）列表');
   let body = '';
   req.on('data', (chunk) => {
     body += chunk;
@@ -12,35 +13,35 @@ const evaluationList = (req, res) => {
     const data = JSON.parse(body);
     loginZhjw(data.number, data.password)
       .then((cookie) => {
-        console.log('cookie: ', cookie);
-        // console.log('typeof cookie: ', typeof cookie);
-        return getTeacherList(cookie);
+        log.info(`cookie: ${cookie}`);
+        return getEvaluationList(cookie);
       })
       .then((result) => {
-        console.log('getTeacherList: ', result);
+        log.success('获取需要评估的老师（助教）列表成功');
+        log.success(result);
         const obj = {
           code: 0,
           message: '获取评教列表成功',
           evaluationList: result.teacherList,
-          token: result.token,
+          cookie: result.cookie,
         };
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.write(JSON.stringify(obj));
         res.end();
       })
-      .catch((exception) => {
-        console.log('exception: ', exception);
-        console.log('message: ', exception.message);
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        const obj = {
-          code: 1000,
-          message: exception.message,
-        };
-        res.write(JSON.stringify(obj));
-        res.end();
-      });
+        .catch((exception) => {
+          console.log('exception: ', exception);
+          console.log('message: ', exception.message);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          const obj = {
+            code: 1000,
+            message: exception.message,
+          };
+          res.write(JSON.stringify(obj));
+          res.end();
+        });
   });
 };
 
 
-module.exports = evaluationList;
+module.exports = evaluationListController;

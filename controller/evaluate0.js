@@ -1,9 +1,8 @@
-const log = require('./../helper/log');
 const showEvalutePage = require('./../models/showEvaluatePage');
-const evaluate = require('./../models/evaluate');
 
 
 const evaluateController = (req, res) => {
+  console.log('login...');
   let body = '';
   req.on('data', (chunk) => {
     body += chunk;
@@ -12,20 +11,23 @@ const evaluateController = (req, res) => {
     const data = JSON.parse(body);
     showEvalutePage(data)
     .then(() => {
-      log.info('显示页面成功，开始教学评估');
-      return evaluate(data);
+      console.log('show evaluate page...');
+      return evaluate.evaluate(data.token, data);
     })
-    .then((result) => {
-      const obj = {
-        code: 0,
-        message: '评估成功',
-        teacher: result.teacher,
-      };
-      res.write(JSON.stringify(obj));
-      res.end();
-    })
+      .then((result) => {
+        console.log('评教结果: ', result);
+        const obj = {
+          code: 0,
+          message: '评教成功',
+          teacher: result.teacher,
+        };
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.write(JSON.stringify(obj));
+        res.end();
+      })
       .catch((exception) => {
-        log.error('exception: ', exception);
+        console.log('exception: ', exception);
+        console.log('message: ', exception.message);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         const obj = {
           code: 1000,

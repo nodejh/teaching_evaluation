@@ -1,40 +1,41 @@
 const http = require('http');
 const url = require('url');
-// const fs = require('fs');
-// const path = require('path');
+const log = require('./helper/log');
 
-const port = require('./config/config').port;
-const ajax = require('./ajax');
-const evaluationList = require('./controller/evaluationList');
-const evaluate = require('./controller/evaluate');
+const staticServerController = require('./controller/staticServer');
+const evaluationListController = require('./controller/evaluationList');
+const evaluateController = require('./controller/evaluate');
+
+// HTTP 服务端口
+const port = process.env.PORT || 5000;
+
 
 const server = http.createServer((req, res) => {
-  const method = req.method.toLocaleLowerCase();
-  const pathname = url.parse(req.url).pathname;
-  console.log('method: ', method);
-  console.log('pathname: ', pathname);
-
-  if (method === 'post' && pathname === '/api/getEvaluationList') {
+  const reqUrl = req.url;
+  // HTTP 请求统一为大写
+  const method = req.method.toLocaleUpperCase();
+  log.info(`${method} ${reqUrl}`);
+  const pathname = url.parse(reqUrl).pathname;
+  if (method === 'POST' && pathname === '/api/evaluationList') {
     // 模拟登录，获取需要评教的老师列表
-    return evaluationList(req, res);
+    return evaluationListController(req, res);
   }
 
-  if (method === 'post' && pathname === '/api/evaluate') {
+  if (method === 'POST' && pathname === '/api/evaluate') {
     // 评教
-    return evaluate(req, res);
+    return evaluateController(req, res);
   }
 
-  if (method === 'get') {
-    // 处理 GET 请求
-    return ajax.get(req, res);
+  if (method === 'GET') {
+    // 所有 GET 请求都当作是请求静态资源
+    return staticServerController(req, res);
   }
 
   // 未知请求，返回 400
-  res.writeHead(400, { 'Content-Type': 'text/html' });
-  res.write('<h1>Bad Request</h1>');
-  res.end();
+  res.writeHead(400);
+  res.end('<h1>Bad Request</h1>');
 });
 
 server.listen(port, () => {
-  console.log(`Server is running at port ${port}!`);
+  log.info(`Server is running at port ${port}!`);
 });
