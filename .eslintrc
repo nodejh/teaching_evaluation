@@ -1,0 +1,32 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "rules": {
+    "react/jsx-filename-extension": 0,
+    "valid-jsdoc": ["error", {
+      "requireReturn": true,
+      "requireReturnType": true,
+      "requireParamDescription": true,
+      "requireReturnDescription": true
+    }],
+    "require-jsdoc": ["error", {
+        "require": {
+            "FunctionDeclaration": true,
+            "MethodDefinition": false,
+            "ClassDeclaration": false
+        }
+    }],
+    "consistent-return": 0,
+    "no-param-reassign": ["error", { "props": false }],
+    "equire-jsdoc": 0,
+    "class-methods-use-this": 0,
+    "no-underscore-dangle": 0,
+    "no-console": 0
+  }
+}
