@@ -15,6 +15,8 @@
     // 隐藏 $message 边框
     // 隐藏 $closeMessage
     setMessageInit();
+    // 显示表单 form
+    setFormInit();
   });
 
 
@@ -71,7 +73,7 @@
         $messageList.innerHTML += '<div class="text-info">[提示] 开始教学评估</div>';
         $messageList.innerHTML += '<div class="text-info">[提示] 获取需要评估的老师列表...</div>';
         // 隐藏表单
-        $container.className += ' hidden';
+        setFormHiddden();
         // 显示 message 的边框和 close-message
         showMessageBox();
         // 设置按钮的初始状态（因为已经表单隐藏了，用户无法再点击按钮，所以可以初始化）
@@ -109,10 +111,6 @@
         // 如果所有老师都已完成评估，则停止程序执行
         if (list.length === 0) {
           // 如果所有老师都已完成评估，则停止程序执行
-          // 将按钮设置为初始状态并显示表单
-          setFormInit();
-          // 取消 message 边框并隐藏 close-message
-          setMessageInit();
           return false;
         }
 
@@ -229,6 +227,7 @@
 
   /**
    * 设置表单的初始状态
+   * （显示表单）
    */
   function setFormInit() {
     $container.className = $container.className.replace(/(hidden)/, '');
@@ -236,6 +235,14 @@
     $container.className += ' visible';
   }
 
+
+  /**
+   * 隐藏表单
+   */
+   function setFormHiddden() {
+     $container.className = $container.className.replace(/(visible)/, '');
+     $container.className += ' hidden';
+   }
 
   /**
    * 设置 message 的初始状态
@@ -246,6 +253,8 @@
   function setMessageInit() {
     // 隐藏 $message 边框
     $message.className = $message.className.replace(/message-border/, '');
+    // 去掉 message-z-index 属性
+    $message.className = $message.className.replace(/message-z-index/, '');
     // 隐藏 $closeMessage
     $closeMessage.className = $closeMessage.className.replace(/visible/, '');
     $closeMessage.className += ' hidden';
@@ -255,13 +264,14 @@
   /**
    * 显示 message 边框
    * 显示 close-message
+   * 设置 z-index 为比较大的值，显示在上层
    */
   function showMessageBox() {
     // 显示 message 边框
     $message.className += ' message-border';
+    $message.className += ' visible message-z-index';
     // 显示 close-message
     $closeMessage.className = $closeMessage.className.replace(/hidden/, '');
-    $closeMessage.className += ' visible';
   }
 
 // })();
