@@ -1,4 +1,4 @@
-// (function() {
+(function() {
   var $btn = document.getElementById('btn');
   var $number = document.getElementById('number');
   var $password = document.getElementById('password');
@@ -6,7 +6,7 @@
   var $message = document.getElementById('message');
   var $messageList = document.getElementById('messageList');
   var $closeMessage = document.getElementById('close-message');
-
+  var $title = document.getElementById('title');
 
   // 点击关闭 message
   $closeMessage.addEventListener('click', function(event) {
@@ -52,6 +52,7 @@
     // 禁止按钮点击
     setBtnLoading();
     // return false;
+    $title.innerText = '你懂的';
     $messageList.innerHTML = '';
     $messageList.innerHTML += '<div class="text-info">[提示] 模拟登录教务系统...</div>';
     post(url, data, function(err, res) {
@@ -155,7 +156,11 @@
       } else {
         // 失败
         // 取消按钮禁止状态
+        setBtnInit();
+        // 设置表单为初始状态
         setFormInit();
+        // 将标题文字设置为空，因为会遮挡提示文字
+        $title.innerHTML = '&nbsp;';
         $messageList.innerHTML += '<div class="text-failed">[失败] ' + parsed.message + '</div>';
       }
     });
@@ -274,4 +279,4 @@
     $closeMessage.className = $closeMessage.className.replace(/hidden/, '');
   }
 
-// })();
+})();
