@@ -1,8 +1,22 @@
-(function() {
+// (function() {
   var $btn = document.getElementById('btn');
   var $number = document.getElementById('number');
   var $password = document.getElementById('password');
+  var $container = document.getElementById('container')
   var $message = document.getElementById('message');
+  var $messageList = document.getElementById('messageList');
+  var $closeMessage = document.getElementById('close-message');
+
+
+  // 点击关闭 message
+  $closeMessage.addEventListener('click', function(event) {
+    // 清空 $messageList
+    $messageList.innerHTML = '';
+    // 隐藏 $message 边框
+    // 隐藏 $closeMessage
+    setMessageInit();
+  });
+
 
   // 给按钮绑定点击事件
   $btn.addEventListener('click', function(event) {
@@ -16,10 +30,14 @@
     var number = $number.value;
     var password = $password.value;
     if (!number) {
-      return alert('请输入学号');
+      // return alert('请输入学号');
+      $messageList.innerHTML += '<div class="text-success">[提示] 请输入学号 </div>';
+      return false;
     }
     if (!password) {
-      return alert('请输入密码');
+      $messageList.innerHTML += '<div class="text-success">[提示] 请输入密码 </div>';
+      // return alert('请输入密码');
+      return false;
     }
     // 获取需要评教的列表
     var url = '/api/evaluationList';
@@ -31,8 +49,9 @@
     console.log('data: ', data);
     // 禁止按钮点击
     setBtnLoading();
-    $message.innerHTML = '';
-    $message.innerHTML += '<div class="text-info">获取需要评估的老师列表...</div>';
+    // return false;
+    $messageList.innerHTML = '';
+    $messageList.innerHTML += '<div class="text-info">[提示] 模拟登录教务系统...</div>';
     post(url, data, function(err, res) {
       const parsed = JSON.parse(res);
       console.log('err: ', err);
@@ -40,17 +59,26 @@
       console.log('parsed: ', parsed);
       if (err) {
         // HTTP 请求出错 停止运行
-        setBtnInit();
-        alert('服务器错误，请重试');
-        window.location.reload();
+        setFormInit();
+        // alert('服务器错误，请重试');
+        $messageList.innerHTML += '<div class="text-info">[失败] 服务器错误，请重试</div>';
         return false;
       }
 
       // HTTP 请求正确 判断处理结果是否正确
       if (parsed.code === 0) {
+        $messageList.innerHTML += '<div class="text-success">[成功] 模拟登录成功</div>';
+        $messageList.innerHTML += '<div class="text-info">[提示] 开始教学评估</div>';
+        $messageList.innerHTML += '<div class="text-info">[提示] 获取需要评估的老师列表...</div>';
+        // 隐藏表单
+        $container.className += ' hidden';
+        // 显示 message 的边框和 close-message
+        showMessageBox();
+        // 设置按钮的初始状态（因为已经表单隐藏了，用户无法再点击按钮，所以可以初始化）
+        setBtnInit();
         // 进行评教
         var evaluationList = parsed.evaluationList;
-        $message.innerHTML += '<div class="text-success">[成功] 共 ' + evaluationList.length + ' 名需要评估的老师 </div>';
+        $messageList.innerHTML += '<div class="text-success">[成功] 共 ' + evaluationList.length + ' 名需要评估的老师 </div>';
         var cookie = parsed.cookie;
         var list = evaluationList.filter(function(item) {
           if (item.isEvalute === '否') {
@@ -64,14 +92,16 @@
         // 如果所有老师都已评估完成，则提示“所有老师都已评估完成”
         if (list.length === 0) {
           // 全部都已经评估过
-          $message.innerHTML += '<div class="text-info">[提示] 所有老师都已评估完成</div>';
+          $messageList.innerHTML += '<div class="text-info">[提示] 所有老师都已评估完成，无需要再次评教</div>';
+          $messageList.innerHTML += '<div class="text-info">[提示] 即将展示教学评估列表...</div>';
+          scrollBottom();
         }
 
         // 显示已完成评教的教师信息
         evaluationList.forEach(function(item) {
           if (item.isEvalute === '是') {
             console.log('item: ', item);
-            $message.innerHTML += '<div class="text-info">[已完成] ' + item.teacherName + ' ' +  item.className + '</div>';
+            $messageList.innerHTML += '<div class="text-info">[已评估] ' + item.teacherName + ' ' +  item.className + '</div>';
             scrollBottom();
           }
         });
@@ -79,10 +109,16 @@
         // 如果所有老师都已完成评估，则停止程序执行
         if (list.length === 0) {
           // 如果所有老师都已完成评估，则停止程序执行
+          // 将按钮设置为初始状态并显示表单
+          setFormInit();
+          // 取消 message 边框并隐藏 close-message
+          setMessageInit();
           return false;
         }
+
         // return false;
-        $message.innerHTML += '<div class="text-info">[提示] 开始教学评估...</div>';
+        $messageList.innerHTML += '<div class="text-info">[提示] 开始教学评估...</div>';
+        scrollBottom();
         list.map(function(item) {
           console.log('item: ', item);
           // 到这里所有的 item 应该已经都是未评估的了
@@ -102,17 +138,17 @@
             post(urlEvaluate, dataEvaluate, function(errEvaluate, resEvaluate) {
               if (err) {
                 // 评教 HTTP 请求出错
-                $message.innerHTML += '<div class="text-failed">[失败] ' + item.teacherName + ' ' +  item.className + ' 评估失败</div>';
+                $messageList.innerHTML += '<div class="text-failed">[失败] ' + item.teacherName + ' ' +  item.className + ' 评估失败</div>';
                 scrollBottom();
                 return false;
               }
               var parsedEvaluate = JSON.parse(resEvaluate);
               console.log('parsedEvaluate: ', parsedEvaluate);
               if (parsedEvaluate.code === 0) {
-                $message.innerHTML += '<div class="text-success">[成功]  ' + parsedEvaluate.teacher.teacherName + ' ' +  parsedEvaluate.teacher.className + ' 评估成功</div>';
+                $messageList.innerHTML += '<div class="text-success">[成功]  ' + parsedEvaluate.teacher.teacherName + ' ' +  parsedEvaluate.teacher.className + ' 评估成功</div>';
                 scrollBottom();
               } else {
-                $message.innerHTML += '<div class="text-failed">[失败] ' + parsedEvaluate.teacher.teacherName +' ' + parsedEvaluate.teacher.className + '</div>';
+                $messageList.innerHTML += '<div class="text-failed">[失败] ' + parsedEvaluate.teacher.teacherName +' ' + parsedEvaluate.teacher.className + '</div>';
                 scrollBottom();
               }
             });
@@ -121,8 +157,8 @@
       } else {
         // 失败
         // 取消按钮禁止状态
-        setBtnInit();
-        $message.innerHTML += '<div>[失败] ' + parsed.message + '</div>';
+        setFormInit();
+        $messageList.innerHTML += '<div class="text-failed">[失败] ' + parsed.message + '</div>';
       }
     });
   });
@@ -183,11 +219,49 @@
 
 
   /**
-   * 设置按钮的初始状态
+   * 设置 btn 的初始状态
    */
   function setBtnInit() {
-    $btn.innerText = '评教';
+    $btn.innerText = '一键评教';
     $btn.removeAttribute('disabled');
   }
 
-})();
+
+  /**
+   * 设置表单的初始状态
+   */
+  function setFormInit() {
+    $container.className = $container.className.replace(/(hidden)/, '');
+    console.log('$container.className: ', $container.className);
+    $container.className += ' visible';
+  }
+
+
+  /**
+   * 设置 message 的初始状态
+   * 隐藏边框
+   * 隐藏 close-message
+   * (不清空 messageList)
+   */
+  function setMessageInit() {
+    // 隐藏 $message 边框
+    $message.className = $message.className.replace(/message-border/, '');
+    // 隐藏 $closeMessage
+    $closeMessage.className = $closeMessage.className.replace(/visible/, '');
+    $closeMessage.className += ' hidden';
+  }
+
+
+  /**
+   * 显示 message 边框
+   * 显示 close-message
+   */
+  function showMessageBox() {
+    // 显示 message 边框
+    $message.className += ' message-border';
+    // 显示 close-message
+    $closeMessage.className = $closeMessage.className.replace(/hidden/, '');
+    $closeMessage.className += ' visible';
+  }
+
+// })();
