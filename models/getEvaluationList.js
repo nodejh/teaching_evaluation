@@ -13,7 +13,7 @@ const getEvaluationList = (cookie) => {
     host: '202.115.47.141',
     method: 'GET',
     // 这里pageSize=100主要是为了列出所有需要评估的老师（助教）
-    path: '/jxpgXsAction.do?oper=listWj&pageSize=18',
+    path: '/jxpgXsAction.do?oper=listWj&pageSize=100',
     headers: {
       Cookie: cookie,
     },
