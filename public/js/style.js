@@ -166,6 +166,14 @@
     });
   });
 
+
+  /**
+   * 封装的 POST 请求
+   * @param  {string}   url      请求路径
+   * @param  {object}   data     发送的数据
+   * @param  {function} callback 接收到响应之后的回调函数
+   * @return {null}               null
+   */
   function post(url, data, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function() {
@@ -185,21 +193,6 @@
     xhr.open('POST', url, true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
-  }
-
-  function onReadyStateChange(callback) {
-    console.log('xhr.readyState: ', xhr.readyState);
-    if (xhr.readyState === 4) {
-      if (xhr.status === 200) {
-        console.log('xhr.responseText: ', xhr.responseText);
-        callback(null, xhr.responseText);
-      } else {
-        console.log('There was a problem with the request');
-        callback(new Error('There was a problem with the request'));
-      }
-    } else {
-      console.log('still not ready...');
-    }
   }
 
 
