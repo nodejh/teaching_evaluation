@@ -264,7 +264,7 @@ form button:hover {
   margin-top: 30px;
   padding: 15px;
   width: 96%;
-  height: 80%;
+  height: 85%;
   right: 2%;
   left: 2%;
   overflow-y: scroll;
@@ -337,7 +337,7 @@ form button:hover {
 }
 @media (min-width: 780px) {
   .close-message {
-    right: 40px;    
+    right: 40px;
   }
 }
 
