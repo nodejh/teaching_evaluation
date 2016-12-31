@@ -1,6 +1,8 @@
 const request = require('./../helper/request');
 const querystring = require('querystring');
 const log = require('./../helper/log');
+const config = require('./../config/config');
+
 
 /**
  * 教学评估
@@ -44,7 +46,7 @@ const evaluate = (data) => {
   }
 
   const options = {
-    hostname: '202.115.47.141',
+    hostname: config.hostname,
     port: 80,
     path: '/jxpgXsAction.do?oper=wjpg',
     method: 'POST',

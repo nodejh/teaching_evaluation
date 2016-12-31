@@ -1,6 +1,7 @@
 const cheerio = require('cheerio');
 const request = require('./../helper/request');
 const log = require('./../helper/log');
+const config = require('./../config/config');
 
 
 /**
@@ -10,7 +11,7 @@ const log = require('./../helper/log');
  */
 const getEvaluationList = (cookie) => {
   const options = {
-    host: '202.115.47.141',
+    host: config.hostname,
     method: 'GET',
     // 这里pageSize=100主要是为了列出所有需要评估的老师（助教）
     path: '/jxpgXsAction.do?oper=listWj&pageSize=100',

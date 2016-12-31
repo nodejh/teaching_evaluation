@@ -1,6 +1,7 @@
 const querystring = require('querystring');
 const request = require('./../helper/request');
 const log = require('./../helper/log');
+const config = require('./../config/config');
 
 
 /**
@@ -15,7 +16,7 @@ const loginZhjw = (number, password) => {
     mm: password,
   });
   const options = {
-    host: '202.115.47.141',
+    host: config.hostname,
     method: 'POST',
     path: '/loginAction.do',
     headers: {

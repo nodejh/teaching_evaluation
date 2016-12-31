@@ -1,6 +1,7 @@
 const request = require('./../helper/request');
 const querystring = require('querystring');
 const log = require('./../helper/log');
+const config = require('./../config/config');
 
 
 /**
@@ -36,7 +37,7 @@ const showEvalutePage = (data) => {
     return Promise.reject(new Error('未知教学评估类型'));
   }
   const options = {
-    hostname: '202.115.47.141',
+    hostname: config.hostname,
     port: 80,
     path: '/jxpgXsAction.do?oper=wjShow',
     method: 'POST',
