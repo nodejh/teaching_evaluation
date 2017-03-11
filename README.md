@@ -24,3 +24,7 @@ $ npm start
 
 
 更多：[一键评教软件架构及代码分析](https://zhuanlan.zhihu.com/p/24651022)
+
+## License
+
+[https://github.com/nodejh/teaching_evaluation/blob/master/LICENSE.md](https://github.com/nodejh/teaching_evaluation/blob/master/LICENSE.md)
