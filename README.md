@@ -27,4 +27,4 @@ $ npm start
 
 ## License
 
-[https://github.com/nodejh/teaching_evaluation/blob/master/LICENSE.md](https://github.com/nodejh/teaching_evaluation/blob/master/LICENSE.md)
+[MIT](https://github.com/nodejh/teaching_evaluation/blob/master/LICENSE.md)
