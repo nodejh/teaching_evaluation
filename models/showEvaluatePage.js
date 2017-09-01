@@ -12,7 +12,7 @@ const config = require('./../config/config');
 const showEvalutePage = (data) => {
   log.info('显示评估页面');
   let postData = '';
-  if (data.wjbm === '0000000051') {
+  if (data.wjbm === '0000000058') {
     // 老师评价
     postData = querystring.stringify({
       wjbm: data.wjbm,
@@ -22,7 +22,7 @@ const showEvalutePage = (data) => {
       bprm: data.teacherName,
       pgnrm: data.className,
     });
-  } else if (data.wjbm === '0000000052') {
+  } else if (data.wjbm === '0000000059') {
     // 助教评价
     postData = querystring.stringify({
       oper: 'wjShow',

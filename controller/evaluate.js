@@ -26,6 +26,7 @@ const evaluateController = (req, res) => {
     })
       .catch((exception) => {
         log.error('exception: ', exception);
+        console.log('exception: ', exception);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         const obj = {
           code: 1000,
