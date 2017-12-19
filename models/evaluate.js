@@ -12,7 +12,7 @@ const config = require('./../config/config');
 const evaluate = (data) => {
   log.info('开始教学评估');
   let postData = '';
-  if (data.wjbm === '0000000058') {
+  if (data.wjbm === '0000000064') {
     // 老师评价
     postData = querystring.stringify({
       wjbm: data.wjbm,
@@ -27,7 +27,7 @@ const evaluate = (data) => {
       '0000000035': '10_1',
       zgpj: 'Very Good!',
     });
-  } else if (data.wjbm === '0000000059') {
+  } else if (data.wjbm === '0000000062') {
     // 助教评价
     postData = querystring.stringify({
       wjbm: data.wjbm,
