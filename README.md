@@ -2,6 +2,10 @@
 
 XX大学教务系统的一键评教程序。你懂的。
 
+online: 
+  - [http://pj.nodejh.com](http://pj.nodejh.com)
+  - [http://pj.fyscu.com](http://pj.fyscu.com)
+
 ## Usage
 
 ```
