@@ -1,6 +1,6 @@
 # 一键评教
 
-问题反馈：[https://github.com/nodejh/teaching_evaluation/issues](https://github.com/nodejh/teaching_evaluation/issues)
+问题反馈：[issues](https://github.com/nodejh/teaching_evaluation/issues)
 
 网址: 
   - [http://pj.nodejh.com](http://pj.nodejh.com)
