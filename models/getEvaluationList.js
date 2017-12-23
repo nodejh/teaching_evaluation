@@ -70,7 +70,7 @@ const getEvaluationList = (cookie) => {
     })
       .catch((exception) => {
         log.error('获取需要评估的教师列表出错，请稍后重试');
-        log.error(exception);
+        // log.error(exception);
         return Promise.reject(exception);
       });
 };

@@ -13,6 +13,7 @@ const evaluateController = (req, res) => {
     showEvalutePage(data)
     .then(() => {
       log.info('显示页面成功，开始教学评估');
+      console.log('data: ', data);
       return evaluate(data);
     })
     .then((result) => {

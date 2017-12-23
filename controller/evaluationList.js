@@ -18,7 +18,7 @@ const evaluationListController = (req, res) => {
       })
       .then((result) => {
         log.success('获取需要评估的老师（助教）列表成功');
-        log.success(result);
+        // log.success(result);
         const obj = {
           code: 0,
           message: '获取评教列表成功',
@@ -30,8 +30,8 @@ const evaluationListController = (req, res) => {
         res.end();
       })
         .catch((exception) => {
-          console.log('exception: ', exception);
-          console.log('message: ', exception.message);
+          // console.log('exception: ', exception);
+          // console.log('message: ', exception.message);
           res.writeHead(200, { 'Content-Type': 'application/json' });
           const obj = {
             code: 1000,

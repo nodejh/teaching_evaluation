@@ -54,7 +54,7 @@ const loginZhjw = (number, password) => {
     })
       .catch((exception) => {
         log.error('登录教务系统失败');
-        log.error(exception);
+        // log.error(exception);
         return Promise.reject(exception);
       });
 };

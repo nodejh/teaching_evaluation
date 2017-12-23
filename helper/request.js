@@ -9,8 +9,8 @@ const request = (postData, options) => {
   log.info(options);
   return new Promise((resolve, reject) => {
     const req = http.request(options, (res) => {
-      log.info(`STATUS: ${res.statusCode}`);
-      log.info(`HEADERS: ${JSON.stringify(res.headers)}`);
+      // log.info(`STATUS: ${res.statusCode}`);
+      // log.info(`HEADERS: ${JSON.stringify(res.headers)}`);
       let body = '';
 
       res.on('data', (chunk) => {
@@ -18,7 +18,7 @@ const request = (postData, options) => {
       });
 
       res.on('end', () => {
-        log.info(`BODY: ${body}`);
+        // log.info(`BODY: ${body}`);
         resolve({
           headers: res.headers,
           body,

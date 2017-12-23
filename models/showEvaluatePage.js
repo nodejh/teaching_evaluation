@@ -12,6 +12,7 @@ const config = require('./../config/config');
 const showEvalutePage = (data) => {
   log.info('显示评估页面');
   let postData = '';
+  console.log('data: ', data);
   if (data.wjbm === '0000000064') {
     // 老师评价
     postData = querystring.stringify({
@@ -24,6 +25,17 @@ const showEvalutePage = (data) => {
     });
   } else if (data.wjbm === '0000000062') {
     // 助教评价
+    postData = querystring.stringify({
+      oper: 'wjShow',
+      wjbm: data.wjbm,
+      bpr: data.bpr,
+      pgnr: data.pgnr,
+      wjmc: data.type,
+      bprm: data.teacherName,
+      pgnrm: data.className,
+    });
+  } else if (data.wjbm === '0000000065') {
+    // 实验评估
     postData = querystring.stringify({
       oper: 'wjShow',
       wjbm: data.wjbm,
@@ -61,7 +73,7 @@ const showEvalutePage = (data) => {
     })
       .catch((exception) => {
         log.error('显示评估页面发生异常');
-        log.error(exception);
+        // log.error(exception);
         return Promise.reject({
           message: '显示评估页面发生异常',
           teacher: data,
