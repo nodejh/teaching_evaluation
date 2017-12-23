@@ -30,7 +30,7 @@ const evaluationListController = (req, res) => {
         res.end();
       })
         .catch((exception) => {
-          // console.log('exception: ', exception);
+          console.error('exception: ', exception);
           // console.log('message: ', exception.message);
           res.writeHead(200, { 'Content-Type': 'application/json' });
           const obj = {
