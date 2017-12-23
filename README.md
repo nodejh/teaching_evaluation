@@ -1,10 +1,12 @@
 # 一键评教
 
-XX大学教务系统的一键评教程序。你懂的。
+问题反馈：[https://github.com/nodejh/teaching_evaluation/issues](https://github.com/nodejh/teaching_evaluation/issues)
 
-online: 
+网址: 
   - [http://pj.nodejh.com](http://pj.nodejh.com)
   - [http://pj.fyscu.com](http://pj.fyscu.com)
+  
+XX大学教务系统的一键评教程序。你懂的。
 
 ## Usage
 
