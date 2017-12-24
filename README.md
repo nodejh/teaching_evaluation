@@ -26,7 +26,7 @@ $ npm i
 $ npm start
 ```
 
-启动成功后，在浏览器访问 `localhost:5000` 即可。
+启动成功后，在浏览器访问 `http://localhost:5000` 即可。
 
 
 更多：[一键评教软件架构及代码分析](https://zhuanlan.zhihu.com/p/24651022)
